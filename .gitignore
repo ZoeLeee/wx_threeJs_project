@@ -1,0 +1,12 @@
+.DS_Store
+*.swp
+.project
+node_modules
+.idea/
+.vscode/
+npm-debug.log
+.jshintrc
+.vs/
+test/unit/three.*.unit.js
+miniprogram_npm
+package-lock.json
