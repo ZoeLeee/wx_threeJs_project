@@ -11,6 +11,6 @@
     <text class="user-motto">{{motto}}</text>
   </view> -->
   <!-- <view>图形查看</view> -->
-  <canvas id="canvas" type="webgl" style="width:367px;height:660px" ></canvas>
+  <canvas id="canvas" type="webgl"></canvas>
   <!-- <view>页脚</view> -->
 </view>

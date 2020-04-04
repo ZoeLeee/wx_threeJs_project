@@ -1,18 +1,22 @@
-const app = getApp()
-const { Vector3, OrthographicCamera } = app.THREE;
+const app=getApp();
 class Camera {
-  constructor() {
-    this.intance = null;
-    this._size = 30;
+  constructor(THREE) {
+    this.THREE=THREE;
+    this.intance=null;
+    this._size = 1.5;
     this.init();
   }
   init() {
+    const THREE=this.THREE;
     let [width, height] = [app.globalData.width, app.globalData.height];
     const aspect = height / width;
-    this.intance = new OrthographicCamera(-this._size, this._size, this._size * aspect, -this._size * aspect, -100, 100);
-    this.intance.position.set(-10, 10, 10);
-    this.target = new app.THREE.Vector3(0, 0, 0);
-    this.intance.lookAt(this.target);
+    const size = this._size;
+    const camera = new THREE.OrthographicCamera(-size, size, size * aspect, -size * aspect, -100, 100);
+    camera.position.set(-10, 10, 10);
+    const target = new THREE.Vector3(0, 0, 0);
+    camera.lookAt(target);
+    this.intance = camera;
+    this.target=target;
   }
 }
-export default new Camera();
+export default Camera;
