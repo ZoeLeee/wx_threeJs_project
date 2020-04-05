@@ -2,28 +2,66 @@ import { getLoader } from '../../utils/objLoader.js';
 import { requestAnimationFrame } from '../../utils/requestAnimationFrame.js';
 import Camera from './camera';
 
-const app=getApp();
 class Viewer {
   constructor() {
-    this.camera=null;
-    this.scene=null;
-    this.renderer=null;
+    this.camera = null;
+    this.scene = null;
+    this.renderer = null;
   }
-  init(canvas,THREE) {
+  init(canvas, THREE) {
+    this.initScene(THREE);
+
+    this.initRenderer(canvas, THREE);
+
+    let camera = new Camera(THREE);
+
+    this.scene.add(camera.intance)
+
+    this.camera = camera;
+
+    this.initHelper(THREE);
+
+    this.initPlane(THREE);
+    this.initLight(THREE);
+
+    this.testScene(THREE);
+
+    this.animate();
+  }
+  initScene(THREE) {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
-
+    this.scene = scene;
+  }
+  initRenderer(canvas, THREE) {
     let renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true
     });
 
-    let camera=new Camera(THREE);
-
+    this.renderer = renderer;
+  }
+  initHelper(THREE) {
     const axesHelper = new THREE.AxesHelper(100);
-    scene.add(camera.intance)
-    scene.add(axesHelper);
+    this.scene.add(axesHelper);
 
+    var helper = new THREE.GridHelper(10,20);
+    helper.position.y = - 0.1;
+    helper.material.opacity = 0.25;
+    helper.material.transparent = true;
+    this.scene.add(helper);
+  }
+  initPlane(THREE) {
+    var planeGeometry = new THREE.PlaneBufferGeometry(10, 10);
+    planeGeometry.rotateX(- Math.PI / 2);
+    var planeMaterial = new THREE.MeshBasicMaterial({transparent:true,opacity:0.25});
+    var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    this.scene.add(plane);
+  }
+  initLight(THREE){
+    this.scene.add( new THREE.AmbientLight( 0xf0f0f0 ) );
+  }
+  testScene(THREE) {
     const ObjLoader = getLoader(THREE);
     let objLoader = new ObjLoader(THREE.DefaultLoadingManager)
 
@@ -33,8 +71,13 @@ class Viewer {
       // resource URL
       'http://cdn.dodream.top/haha.obj',
       // called when resource is loaded
-      function (object) {
-        scene.add(object);
+      (object) => {
+        console.log('object: ', object);
+        object.children.forEach(obj => {
+          if (obj.material)
+            obj.material.color = new THREE.Color("#000");
+        });
+        this.scene.add(object);
       },
       // called when loading is in progresses
       function (xhr) {
@@ -49,18 +92,11 @@ class Viewer {
 
       }
     );
-
-    this.scene=scene;
-    this.camera=camera;
-    this.renderer=renderer;
-
-    this.animate();
-
   }
   render() {
     this.renderer.render(this.scene, this.camera.intance);
   }
-  animate(){
+  animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.render();
   }

@@ -13,6 +13,7 @@ class Camera {
     const size = this._size;
     const camera = new THREE.OrthographicCamera(-size, size, size * aspect, -size * aspect, -100, 100);
     camera.position.set(-10, 10, 10);
+    // camera.position.set(0, 0, 10);
     const target = new THREE.Vector3(0, 0, 0);
     camera.lookAt(target);
     this.intance = camera;

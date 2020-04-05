@@ -23,7 +23,7 @@ Page({
 
       const viewer=new Viewer();
       viewer.init(canvas,THREE);
-
+      console.log(viewer.scene);
       app.Viewer=viewer;
       app.THREE=THREE;
     })
