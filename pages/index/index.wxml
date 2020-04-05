@@ -11,6 +11,13 @@
     <text class="user-motto">{{motto}}</text>
   </view> -->
   <!-- <view>图形查看</view> -->
-  <canvas id="canvas" type="webgl"></canvas>
+  <canvas 
+    id="canvas" 
+    catchtouchstart="touchstart" 
+    catchtouchend="touchEnd" 
+    catchtouchmove="touchMove" 
+    type="webgl"
+    
+    ></canvas>
   <!-- <view>页脚</view> -->
 </view>

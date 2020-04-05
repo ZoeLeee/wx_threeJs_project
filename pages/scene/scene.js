@@ -1,6 +1,7 @@
 import { getLoader } from '../../utils/objLoader.js';
 import { requestAnimationFrame } from '../../utils/requestAnimationFrame.js';
 import Camera from './camera';
+import  {GetOrbitControls}  from '../../utils/orbitControls';
 
 class Viewer {
   constructor() {
@@ -9,8 +10,8 @@ class Viewer {
     this.renderer = null;
   }
   init(canvas, THREE) {
+    this.canvas=canvas;
     this.initScene(THREE);
-
     this.initRenderer(canvas, THREE);
 
     let camera = new Camera(THREE);
@@ -23,7 +24,7 @@ class Viewer {
 
     this.initPlane(THREE);
     this.initLight(THREE);
-
+    this.initControl(THREE);
     this.testScene(THREE);
 
     this.animate();
@@ -61,6 +62,12 @@ class Viewer {
   initLight(THREE){
     this.scene.add( new THREE.AmbientLight( 0xf0f0f0 ) );
   }
+  initControl(THREE){
+    const OrbitControls=GetOrbitControls(this.camera.intance, this.renderer.domElement,THREE);
+    var controls = new OrbitControls( this.camera.intance, this.renderer.domElement );
+    controls.update();
+    this.controls=controls;
+  }
   testScene(THREE) {
     const ObjLoader = getLoader(THREE);
     let objLoader = new ObjLoader(THREE.DefaultLoadingManager)
@@ -97,7 +104,8 @@ class Viewer {
     this.renderer.render(this.scene, this.camera.intance);
   }
   animate() {
-    requestAnimationFrame(this.animate.bind(this));
+    this.canvas.requestAnimationFrame(this.animate.bind(this));
+    this.controls.update();
     this.render();
   }
 }
