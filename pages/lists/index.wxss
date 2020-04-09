@@ -1,0 +1,23 @@
+/* pages/lists/index.wxss */
+.container{
+  padding: 30rpx;
+}
+
+.input{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  align-self: center;
+  height: 60rpx
+}
+.input>input{
+  outline: 1px solid #ccc;
+  height: 60rpx;
+  width: 70%;
+}
+.input>button{
+  flex: 1;
+  height: 60rpx;
+  line-height: 1;
+  
+}

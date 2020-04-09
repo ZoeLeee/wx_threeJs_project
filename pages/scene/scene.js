@@ -1,16 +1,18 @@
 import { getLoader } from '../../utils/objLoader.js';
 import { requestAnimationFrame } from '../../utils/requestAnimationFrame.js';
 import Camera from './camera';
-import  {GetOrbitControls}  from '../../utils/orbitControls';
+import { GetOrbitControls } from '../../utils/orbitControls';
 
 class Viewer {
   constructor() {
     this.camera = null;
     this.scene = null;
     this.renderer = null;
+    this.objLoader = null;
   }
   init(canvas, THREE) {
-    this.canvas=canvas;
+    this.THREE = THREE;
+    this.canvas = canvas;
     this.initScene(THREE);
     this.initRenderer(canvas, THREE);
 
@@ -25,7 +27,12 @@ class Viewer {
     this.initPlane(THREE);
     this.initLight(THREE);
     this.initControl(THREE);
-    this.testScene(THREE);
+
+    const ObjLoader = getLoader(THREE);
+    let objLoader = new ObjLoader(THREE.DefaultLoadingManager)
+    this.objLoader = objLoader;
+
+    // this.testScene(THREE);
 
     this.animate();
   }
@@ -46,7 +53,7 @@ class Viewer {
     const axesHelper = new THREE.AxesHelper(100);
     this.scene.add(axesHelper);
 
-    var helper = new THREE.GridHelper(10,20);
+    var helper = new THREE.GridHelper(10, 20);
     helper.position.y = - 0.1;
     helper.material.opacity = 0.25;
     helper.material.transparent = true;
@@ -55,23 +62,21 @@ class Viewer {
   initPlane(THREE) {
     var planeGeometry = new THREE.PlaneBufferGeometry(10, 10);
     planeGeometry.rotateX(- Math.PI / 2);
-    var planeMaterial = new THREE.MeshBasicMaterial({transparent:true,opacity:0.25});
+    var planeMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.25 });
     var plane = new THREE.Mesh(planeGeometry, planeMaterial);
     this.scene.add(plane);
   }
-  initLight(THREE){
-    this.scene.add( new THREE.AmbientLight( 0xf0f0f0 ) );
+  initLight(THREE) {
+    this.scene.add(new THREE.AmbientLight(0xf0f0f0));
   }
-  initControl(THREE){
-    const OrbitControls=GetOrbitControls(this.camera.intance, this.renderer.domElement,THREE);
-    var controls = new OrbitControls( this.camera.intance, this.renderer.domElement );
+  initControl(THREE) {
+    const OrbitControls = GetOrbitControls(this.camera.intance, this.renderer.domElement, THREE);
+    var controls = new OrbitControls(this.camera.intance, this.renderer.domElement);
     controls.update();
-    this.controls=controls;
+    this.controls = controls;
   }
   testScene(THREE) {
-    const ObjLoader = getLoader(THREE);
-    let objLoader = new ObjLoader(THREE.DefaultLoadingManager)
-
+    let objLoader = this.objLoader;
     //http://cdn.dodream.top/haha.obj
 
     objLoader.load(
@@ -99,6 +104,50 @@ class Viewer {
 
       }
     );
+  }
+  loaderObj(url) {
+    let objLoader = this.objLoader;
+    const THREE = this.THREE;
+    objLoader.load(
+      // resource URL
+      url,
+      // called when resource is loaded
+      (object) => {
+        console.log('object: ', object);
+        object.children.forEach(obj => {
+          if (obj.material)
+            obj.material.color = new THREE.Color("#000");
+        });
+        console.log(object);
+        object.scale.set(1e-2, 1e-2, 1e-2);
+        this.scene.add(object);
+      },
+      // called when loading is in progresses
+      function (xhr) {
+
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+      },
+      // called when loading has errors
+      function (error) {
+
+        console.log('An error happened');
+
+      }
+    );
+  }
+  clear(obj) {
+    if (!obj)
+      obj = this.scene.children;
+
+    for (let o of obj) {
+      if (o.geometry)
+        o.geometry.dispose();
+      this.clear(o);
+      o.parent = null;
+      o.dispatchEvent({ type: "removed" });
+    }
+    obj.children.length = 0;
   }
   render() {
     this.renderer.render(this.scene, this.camera.intance);

@@ -1,0 +1,11 @@
+<!--pages/lists/index.wxml-->
+<view class="container">
+  <view class="input">
+    <input confirm-type="go" placeholder="输入obj地址" value="{{url}}" />
+    <button type="primary">确定</button>
+  </view>
+  <view>
+    <view data-url='http://cdn.dodream.top/haha.obj' bindtap="look" >柜子</view>
+    <view data-url='http://cdn.dodream.top/male02.obj' bindtap="look" >人</view>
+  </view>
+</view>

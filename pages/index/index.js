@@ -9,8 +9,24 @@ const app = getApp()
 Page({
   data: {
   },
-  onLoad: function () {
-  
+  onLoad: function (option) {
+    const eventChannel = this.getOpenerEventChannel();
+    eventChannel.on('acceptData', function (data) {
+      // if(!app.Viewer){
+       wx.createSelectorQuery().select('#canvas').node().exec((res) => {
+          const canvas = res[0].node;
+          const THREE = createScopedThreejs(canvas);
+
+          const viewer = new Viewer();
+          viewer.init(canvas, THREE);
+          app.Viewer = viewer;
+          app.THREE = THREE;
+          viewer.loaderObj(data.url);
+        })
+      // }
+      // else
+      //   app.Viewer.loaderObj(data.url);
+    })
   },
   touchstart(e){
     if(e.touches.length>1){
@@ -30,15 +46,10 @@ Page({
     }
     app.Viewer.controls.onTouchMove(e);
   },
-  onReady(){
-    const query = wx.createSelectorQuery().select('#canvas').node().exec((res) => {
-      const canvas = res[0].node;
-      const THREE = createScopedThreejs(canvas);
-
-      const viewer=new Viewer();
-      viewer.init(canvas,THREE);
-      app.Viewer=viewer;
-      app.THREE=THREE;
-    })
+  onReady(option){
+   
   },
+  onHide(){
+    app.Viewer.clear();
+  }
 })
