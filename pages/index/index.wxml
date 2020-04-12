@@ -1,5 +1,12 @@
 <!--index.wxml-->
 <view class="container">
-  <!-- <view>图形查看</view> -->
-  <canvas id="canvas" catchtouchstart="touchstart" catchtouchend="touchEnd" catchtouchmove="touchMove" type="webgl" />
+	<!-- <view>图形查看</view> -->
+	<canvas
+	 id="canvas"
+	 catchtouchstart="touchstart"
+	 catchtouchend="touchEnd"
+	 catchtouchmove="touchMove"
+	 type="webgl"
+	></canvas>
 </view>
+

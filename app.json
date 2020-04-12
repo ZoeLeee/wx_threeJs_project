@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/lists/index",
     "pages/index/index"
   ],
   "window": {

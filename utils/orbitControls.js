@@ -74,7 +74,7 @@ export function GetOrbitControls(object, domElement, THREE){
   
     // Mouse buttons
     this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
-  
+
     // Touch fingers
     this.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN };
   
@@ -179,7 +179,7 @@ export function GetOrbitControls(object, domElement, THREE){
         spherical.radius = Math.max(scope.minDistance, Math.min(scope.maxDistance, spherical.radius));
   
         // move target to panned location
-  
+        
         if (scope.enableDamping === true) {
   
           scope.target.addScaledVector(panOffset, scope.dampingFactor);
@@ -311,7 +311,7 @@ export function GetOrbitControls(object, domElement, THREE){
     }
   
     function getZoomScale() {
-  
+
       return Math.pow(0.95, scope.zoomSpeed);
   
     }
@@ -387,15 +387,15 @@ export function GetOrbitControls(object, domElement, THREE){
           // half of the fov is center to top of screen
           targetDistance *= Math.tan((scope.object.fov / 2) * Math.PI / 180.0);
   
-          // we use only clientHeight here so aspect ratio does not distort speed
-          panLeft(2 * deltaX * targetDistance / element.clientHeight, scope.object.matrix);
-          panUp(2 * deltaY * targetDistance / element.clientHeight, scope.object.matrix);
+          // we use only height here so aspect ratio does not distort speed
+          panLeft(2 * deltaX * targetDistance / element.height, scope.object.matrix);
+          panUp(2 * deltaY * targetDistance / element.height, scope.object.matrix);
   
         } else if (scope.object.isOrthographicCamera) {
-  
+
           // orthographic
-          panLeft(deltaX * (scope.object.right - scope.object.left) / scope.object.zoom / element.clientWidth, scope.object.matrix);
-          panUp(deltaY * (scope.object.top - scope.object.bottom) / scope.object.zoom / element.clientHeight, scope.object.matrix);
+          panLeft(deltaX * (scope.object.right - scope.object.left) / scope.object.zoom / element.width, scope.object.matrix);
+          panUp(deltaY * (scope.object.top - scope.object.bottom) / scope.object.zoom / element.height, scope.object.matrix);
   
         } else {
   
@@ -481,9 +481,9 @@ export function GetOrbitControls(object, domElement, THREE){
   
       var element = scope.domElement;
   
-      rotateLeft(2 * Math.PI * rotateDelta.x / element.clientHeight); // yes, height
+      rotateLeft(2 * Math.PI * rotateDelta.x / element.height); // yes, height
   
-      rotateUp(2 * Math.PI * rotateDelta.y / element.clientHeight);
+      rotateUp(2 * Math.PI * rotateDelta.y / element.height);
   
       rotateStart.copy(rotateEnd);
   
@@ -635,7 +635,7 @@ export function GetOrbitControls(object, domElement, THREE){
     }
   
     function handleTouchStartDollyPan(event) {
-  
+
       if (scope.enableZoom) handleTouchStartDolly(event);
   
       if (scope.enablePan) handleTouchStartPan(event);
@@ -691,7 +691,7 @@ export function GetOrbitControls(object, domElement, THREE){
         panEnd.set(x, y);
   
       }
-  
+      
       panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
   
       pan(panDelta.x, panDelta.y);
@@ -702,13 +702,13 @@ export function GetOrbitControls(object, domElement, THREE){
   
     function handleTouchMoveDolly(event) {
   
-      var dx = event.touches[0].x - event.touches[1].x;
-      var dy = event.touches[0].y - event.touches[1].y;
+      var dx = event.touches[0].pageX - event.touches[1].pageX;
+      var dy = event.touches[0].pageY - event.touches[1].pageY;
   
       var distance = Math.sqrt(dx * dx + dy * dy);
   
       dollyEnd.set(0, distance);
-  
+
       dollyDelta.set(0, Math.pow(dollyEnd.y / dollyStart.y, scope.zoomSpeed));
   
       dollyOut(dollyDelta.y);
@@ -966,13 +966,13 @@ export function GetOrbitControls(object, domElement, THREE){
           break;
   
         case 2:
-  
+          
           switch (scope.touches.TWO) {
-  
+            
             case TOUCH.DOLLY_PAN:
   
               if (scope.enableZoom === false && scope.enablePan === false) return;
-  
+              
               handleTouchStartDollyPan(event);
   
               state = STATE.TOUCH_DOLLY_PAN;

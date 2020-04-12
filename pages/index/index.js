@@ -1,5 +1,7 @@
 //index.js
-import { createScopedThreejs } from 'threejs-miniprogram'
+import {
+  createScopedThreejs
+} from 'threejs-miniprogram'
 
 import Viewer from '../scene/scene.js';
 
@@ -7,49 +9,50 @@ import Viewer from '../scene/scene.js';
 const app = getApp()
 
 Page({
-  data: {
-  },
-  onLoad: function (option) {
+  data: {},
+  onLoad: function(option) {
+    if (!option.getOpenerEventChannel) {
+      wx.createSelectorQuery().select('#canvas').node().exec((res) => {
+        const canvas = res[0].node;
+        const THREE = createScopedThreejs(canvas);
+        const viewer = new Viewer();
+        viewer.init(canvas, THREE);
+        app.Viewer = viewer;
+        app.THREE = THREE;
+      });
+      return;
+    }
     const eventChannel = this.getOpenerEventChannel();
-    eventChannel.on('acceptData', function (data) {
+    eventChannel.on('acceptData', function(data) {
       // if(!app.Viewer){
-       wx.createSelectorQuery().select('#canvas').node().exec((res) => {
-          const canvas = res[0].node;
-          const THREE = createScopedThreejs(canvas);
+      wx.createSelectorQuery().select('#canvas').node().exec((res) => {
+        const canvas = res[0].node;
+        const THREE = createScopedThreejs(canvas);
 
-          const viewer = new Viewer();
-          viewer.init(canvas, THREE);
-          app.Viewer = viewer;
-          app.THREE = THREE;
-          viewer.loaderObj(data.url);
-        })
+        const viewer = new Viewer();
+        viewer.init(canvas, THREE);
+        app.Viewer = viewer;
+        app.THREE = THREE;
+        viewer.loaderObj(data.url);
+      });
       // }
       // else
       //   app.Viewer.loaderObj(data.url);
     })
   },
-  touchstart(e){
-    if(e.touches.length>1){
-      return;
-    }
+  touchstart(e) {
     app.Viewer.controls.onTouchStart(e);
   },
-  touchEnd(e){
-    if(e.touches.length>1){
-      return;
-    }
+  touchEnd(e) {
     app.Viewer.controls.onTouchEnd(e);
   },
-  touchMove(e){
-    if(e.touches.length>1){
-      return;
-    }
+  touchMove(e) {
     app.Viewer.controls.onTouchMove(e);
   },
-  onReady(option){
-   
+  onReady(option) {
+
   },
-  onHide(){
+  onHide() {
     app.Viewer.clear();
   }
 })
