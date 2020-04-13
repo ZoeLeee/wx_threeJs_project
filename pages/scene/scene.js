@@ -1,7 +1,8 @@
 import { getLoader } from '../../utils/objLoader.js';
-import { requestAnimationFrame } from '../../utils/requestAnimationFrame.js';
 import Camera from './camera';
 import { GetOrbitControls } from '../../utils/orbitControls';
+
+const uv = "http://cdn.dodream.top/uv_grid_opengl.jpg";
 
 class Viewer {
   constructor() {
@@ -9,6 +10,7 @@ class Viewer {
     this.scene = null;
     this.renderer = null;
     this.objLoader = null;
+    this.textureLoader = null;
   }
   init(canvas, THREE) {
     this.THREE = THREE;
@@ -31,6 +33,8 @@ class Viewer {
     const ObjLoader = getLoader(THREE);
     let objLoader = new ObjLoader(THREE.DefaultLoadingManager)
     this.objLoader = objLoader;
+
+    this.textureLoader = new THREE.TextureLoader();
 
     // this.testScene(THREE);
 
@@ -84,7 +88,6 @@ class Viewer {
       'http://cdn.dodream.top/haha.obj',
       // called when resource is loaded
       (object) => {
-        console.log('object: ', object);
         object.children.forEach(obj => {
           if (obj.material)
             obj.material.color = new THREE.Color("#000");
@@ -106,6 +109,7 @@ class Viewer {
     );
   }
   loaderObj(url) {
+    console.log(url);
     let objLoader = this.objLoader;
     const THREE = this.THREE;
     objLoader.load(
@@ -113,13 +117,13 @@ class Viewer {
       url,
       // called when resource is loaded
       (object) => {
-        console.log('object: ', object);
-        object.children.forEach(obj => {
-          if (obj.material)
-            obj.material.color = new THREE.Color("#000");
+        var texture = this.textureLoader.load(uv);
+        object.traverse(function (child) {
+          if (child.isMesh)
+            child.material.map = texture;
+          // else if( child.isLineSegments)
+          //   child.material.color = new THREE.Color("#000");
         });
-        console.log(object);
-        object.scale.set(1e-2, 1e-2, 1e-2);
         this.scene.add(object);
       },
       // called when loading is in progresses
@@ -138,9 +142,9 @@ class Viewer {
   }
   clear(obj) {
     if (!obj)
-      obj = this.scene.children;
+      obj = this.scene;
 
-    for (let o of obj) {
+    for (let o of obj.children) {
       if (o.geometry)
         o.geometry.dispose();
       this.clear(o);

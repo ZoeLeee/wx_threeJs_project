@@ -7,5 +7,6 @@
   <view>
     <view data-url='http://cdn.dodream.top/haha.obj' bindtap="look" >柜子</view>
     <view data-url='http://cdn.dodream.top/male02.obj' bindtap="look" >人</view>
+    <view data-url='http://cdn.dodream.top/file.obj' bindtap="look" >haha</view>
   </view>
 </view>
