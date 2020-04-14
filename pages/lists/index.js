@@ -1,24 +1,22 @@
 // pages/lists/index.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     url:""
   },
   look(e){
     let url=e.target.dataset.url;
-    console.log(url)
+    if(!url)
+      url=this.data.url;
     wx.navigateTo({
       url: "/pages/index/index",
       success: function (res) {
-        console.log(res);
-        // 通过eventChannel向被打开页面传送数据
+        this.setData({url:""});
         res.eventChannel.emit('acceptData', { url })
       }
-    })
-
+    });
+  },
+  change(e){
+    this.setData({url:e.detail.value});
   },
   /**
    * 生命周期函数--监听页面加载
