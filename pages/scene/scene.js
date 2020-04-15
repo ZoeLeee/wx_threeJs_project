@@ -1,6 +1,8 @@
 import { getLoader } from '../../utils/objLoader.js';
 import Camera from './camera';
 import { GetOrbitControls } from '../../utils/orbitControls';
+import { getMtlLoader } from '../../utils/mtlLoader.js';
+import { LoadingManager } from '../../utils/loadingManager.js';
 
 const uv = "http://cdn.dodream.top/uv_grid_opengl.jpg";
 
@@ -11,6 +13,7 @@ class Viewer {
     this.renderer = null;
     this.objLoader = null;
     this.textureLoader = null;
+    this.mtlLoader=null;
   }
   init(canvas, THREE) {
     this.THREE = THREE;
@@ -29,6 +32,7 @@ class Viewer {
     this.initPlane(THREE);
     this.initLight(THREE);
     this.initControl(THREE);
+    this.initLoader(THREE);
 
     const ObjLoader = getLoader(THREE);
     let objLoader = new ObjLoader(THREE.DefaultLoadingManager)
@@ -36,9 +40,16 @@ class Viewer {
 
     this.textureLoader = new THREE.TextureLoader();
 
+    const MTLLoader =getMtlLoader(THREE);
+
+    this.mtlLoader=new MTLLoader(new THREE.LoadingManager());
+
     // this.testScene(THREE);
 
     this.animate();
+  }
+  initLoader(THREE){
+    THREE.LoadingManager=LoadingManager;
   }
   initScene(THREE) {
     const scene = new THREE.Scene();
@@ -112,17 +123,23 @@ class Viewer {
     console.log(url);
     let objLoader = this.objLoader;
     const THREE = this.THREE;
+    let mtlUrl=url.replace(".obj",".mtl");
+
     objLoader.load(
       // resource URL
       url,
       // called when resource is loaded
       (object) => {
         var texture = this.textureLoader.load(uv);
+        let hasMesh = false;
         object.traverse(function (child) {
-          if (child.isMesh)
+          if (child.isMesh) {
             child.material.map = texture;
-          // else if( child.isLineSegments)
-          //   child.material.color = new THREE.Color("#000");
+            hasMesh = true;
+          }
+
+          if (!hasMesh && child.isLineSegments)
+            child.material.color = new THREE.Color("#000");
         });
         this.scene.add(object);
       },
@@ -139,6 +156,26 @@ class Viewer {
 
       }
     );
+  }
+  loadObjAndMtl(mtlUrl){
+    let objLoader = this.objLoader;
+    let url=mtlUrl.replace(".mtl",".obj");
+    let mtlLoader=this.mtlLoader;
+    let self=this;
+    mtlLoader
+    .load( mtlUrl, function ( materials ) {
+      materials.preload();
+      objLoader
+        .setMaterials( materials )
+        .load( url, ( object )=> {
+          for(let obj of object.children)
+          {
+            if(obj.isMesh)
+            self.scene.add( obj );
+          }
+        });
+    } );
+
   }
   clear(obj) {
     if (!obj)

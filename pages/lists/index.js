@@ -9,7 +9,7 @@ Page({
       url=this.data.url;
     wx.navigateTo({
       url: "/pages/index/index",
-      success: function (res) {
+      success:(res)=> {
         this.setData({url:""});
         res.eventChannel.emit('acceptData', { url })
       }

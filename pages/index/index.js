@@ -13,15 +13,18 @@ Page({
   onLoad: function (option) {
     const eventChannel = this.getOpenerEventChannel();
     eventChannel.on('acceptData', function (data) {
-        wx.createSelectorQuery().select('#canvas').node().exec((res) => {
-          const canvas = res[0].node;
-          const THREE = createScopedThreejs(canvas);
-          const viewer = new Viewer();
-          viewer.init(canvas, THREE);
-          app.Viewer = viewer;
-          app.THREE = THREE;
+      wx.createSelectorQuery().select('#canvas').node().exec((res) => {
+        const canvas = res[0].node;
+        const THREE = createScopedThreejs(canvas);
+        const viewer = new Viewer();
+        viewer.init(canvas, THREE);
+        app.Viewer = viewer;
+        app.THREE = THREE;
+        if (data.url.endsWith(".mtl"))
+          viewer.loadObjAndMtl(data.url);
+        else
           viewer.loaderObj(data.url);
-        });
+      });
     })
   },
   touchstart(e) {
