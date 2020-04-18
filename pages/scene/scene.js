@@ -79,6 +79,7 @@ class Viewer {
     planeGeometry.rotateX(- Math.PI / 2);
     var planeMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.25 });
     var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    plane.name="plane";
     this.scene.add(plane);
   }
   initLight(THREE) {
@@ -123,7 +124,6 @@ class Viewer {
     console.log(url);
     let objLoader = this.objLoader;
     const THREE = this.THREE;
-    let mtlUrl=url.replace(".obj",".mtl");
 
     objLoader.load(
       // resource URL
@@ -168,11 +168,7 @@ class Viewer {
       objLoader
         .setMaterials( materials )
         .load( url, ( object )=> {
-          for(let obj of object.children)
-          {
-            if(obj.isMesh)
-            self.scene.add( obj );
-          }
+            self.scene.add( object );
         });
     } );
 

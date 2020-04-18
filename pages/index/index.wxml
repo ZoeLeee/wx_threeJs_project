@@ -6,6 +6,7 @@
 	 catchtouchstart="touchstart"
 	 catchtouchend="touchEnd"
 	 catchtouchmove="touchMove"
+	 catchtap="touchTap"
 	 type="webgl"
 	></canvas>
 </view>

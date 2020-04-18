@@ -4,6 +4,7 @@ import {
 } from 'threejs-miniprogram'
 
 import Viewer from '../scene/scene.js';
+import { pointPick } from '../../utils/pointPick.js';
 
 //获取应用实例
 const app = getApp()
@@ -28,6 +29,11 @@ Page({
     })
   },
   touchstart(e) {
+    console.log(e)
+    let o=pointPick(e);
+    if(o&& o.material&&o.material.type==="MeshPhongMaterial"){
+      o.material.emissive=new app.THREE.Color(0x33C541);
+    }
     app.Viewer.controls.onTouchStart(e);
   },
   touchEnd(e) {
@@ -35,6 +41,9 @@ Page({
   },
   touchMove(e) {
     app.Viewer.controls.onTouchMove(e);
+  },
+  touchTap(e){
+  
   },
   onReady(option) {
 

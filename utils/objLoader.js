@@ -752,7 +752,6 @@ export function getLoader(THREE) {
         }
 
         // Create mesh
-
         var mesh;
 
         if (createdMaterials.length > 1) {
@@ -790,7 +789,7 @@ export function getLoader(THREE) {
 
           } else {
 
-            mesh = new Mesh(buffergeometry, createdMaterials[0]);
+            mesh = new Mesh(buffergeometry, createdMaterials[0].clone());
 
           }
 
