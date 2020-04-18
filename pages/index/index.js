@@ -10,7 +10,7 @@ import { pointPick } from '../../utils/pointPick.js';
 const app = getApp()
 
 Page({
-  data: {},
+  data: { isMove: false },
   onLoad: function (option) {
     const eventChannel = this.getOpenerEventChannel();
     eventChannel.on('acceptData', function (data) {
@@ -29,24 +29,29 @@ Page({
     })
   },
   touchstart(e) {
-    console.log(e)
-    let o=pointPick(e);
-    if(o&& o.material&&o.material.type==="MeshPhongMaterial"){
-      o.material.emissive=new app.THREE.Color(0x33C541);
-    }
     app.Viewer.controls.onTouchStart(e);
   },
-  touchEnd(e) {
-    app.Viewer.controls.onTouchEnd(e);
-  },
   touchMove(e) {
+    this.setData({ isMove: true });
     app.Viewer.controls.onTouchMove(e);
   },
-  touchTap(e){
-  
-  },
-  onReady(option) {
-
+  touchEnd(e) {
+    if (!this.data.isMove) {
+      let selectObjects = app.Viewer.selectObjects;
+      let o = pointPick({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY });
+      if (selectObjects.has(o)) {
+        o.material.emissive = new app.THREE.Color(0x000000);
+        selectObjects.delete(o)
+      }
+      else {
+        if (o && o.material && o.material.type === "MeshPhongMaterial") {
+          o.material.emissive = new app.THREE.Color(0x33C541);
+          selectObjects.add(o);
+        }
+      }
+    }
+    app.Viewer.controls.onTouchEnd(e);
+    this.setData({ isMove: false });
   },
   onHide() {
     app.Viewer.clear();

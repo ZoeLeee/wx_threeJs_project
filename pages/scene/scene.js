@@ -14,6 +14,7 @@ class Viewer {
     this.objLoader = null;
     this.textureLoader = null;
     this.mtlLoader=null;
+    this.selectObjects=new Set();
   }
   init(canvas, THREE) {
     this.THREE = THREE;

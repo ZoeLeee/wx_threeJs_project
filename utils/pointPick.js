@@ -1,10 +1,10 @@
 const app = getApp();
 
-export function onMouseMove(event, mouse) {
+export function onMouseMove(pt, mouse) {
   let { width, height } = app.globalData;
   // 将鼠标位置归一化为设备坐标。x 和 y 方向的取值范围是 (-1 to +1)
-  mouse.x = (event.touches[0].clientX / width) * 2 - 1;
-  mouse.y = - (event.touches[0].clientY / height) * 2 + 1;
+  mouse.x = (pt.x / width) * 2 - 1;
+  mouse.y = - (pt.y / height) * 2 + 1;
 }
 
 export function pointPick(event, object) {
@@ -18,7 +18,6 @@ export function pointPick(event, object) {
     if (o.isMesh&&o.name!=="plane")
       selectObjs.push(o);
   })
-
   var raycaster = new THREE.Raycaster();
   var mouse = new THREE.Vector2();
   onMouseMove(event, mouse);
