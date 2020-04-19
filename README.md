@@ -16,3 +16,5 @@
 1.扫描二维码打开图
 
 2.支持其他格式3d文件导入
+
+ ![image]( https://cdn.jsdelivr.net/gh/ZoeLeee/cdn/123.gif)
