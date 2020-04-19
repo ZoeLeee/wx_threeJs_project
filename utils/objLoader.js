@@ -644,7 +644,6 @@ export function getLoader(THREE) {
         }
 
       }
-
       state.finalize();
 
       var container = new Group();
@@ -712,7 +711,6 @@ export function getLoader(THREE) {
               material = materialLine;
 
             } else if (isPoints && material && !(material instanceof PointsMaterial)) {
-
               var materialPoints = new PointsMaterial({ size: 10, sizeAttenuation: false });
               Material.prototype.copy.call(materialPoints, material);
               materialPoints.color.copy(material.color);
@@ -789,7 +787,13 @@ export function getLoader(THREE) {
 
           } else {
 
-            mesh = new Mesh(buffergeometry, createdMaterials[0].clone());
+            let mtl=createdMaterials[0].clone();
+
+            if(mtl.map){
+              mtl.map.wrapS=THREE.MirroredRepeatWrapping;
+              mtl.map.wrapT=THREE.MirroredRepeatWrapping;
+            }
+            mesh = new Mesh(buffergeometry,mtl);
 
           }
 

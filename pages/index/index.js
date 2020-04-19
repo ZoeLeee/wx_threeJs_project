@@ -10,7 +10,7 @@ import { pointPick } from '../../utils/pointPick.js';
 const app = getApp()
 
 Page({
-  data: { isMove: false },
+  data: { isMove: false,showMtls:"none" },
   onLoad: function (option) {
     const eventChannel = this.getOpenerEventChannel();
     eventChannel.on('acceptData', function (data) {
@@ -39,6 +39,7 @@ Page({
     if (!this.data.isMove) {
       let selectObjects = app.Viewer.selectObjects;
       let o = pointPick({ x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY });
+      console.log(o);
       if (selectObjects.has(o)) {
         o.material.emissive = new app.THREE.Color(0x000000);
         selectObjects.delete(o)
@@ -52,6 +53,21 @@ Page({
     }
     app.Viewer.controls.onTouchEnd(e);
     this.setData({ isMove: false });
+  },
+  selectMtl(e){
+    let viewer=app.Viewer;
+    let url=e.target.dataset.url;
+    if(!url) return;
+    viewer.changeObjectsMaterial(url)
+  },
+  clearSelct(){
+    app.Viewer.cancelSelect();
+  },
+  toggleShowMtls(){
+    console.log(this.data.showMtls)
+    this.setData({
+      showMtls:this.data.showMtls==="none"?"flex":"none"
+    })
   },
   onHide() {
     app.Viewer.clear();

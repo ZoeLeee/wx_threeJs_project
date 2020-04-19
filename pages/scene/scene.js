@@ -132,6 +132,9 @@ class Viewer {
       // called when resource is loaded
       (object) => {
         var texture = this.textureLoader.load(uv);
+        texture.wrapS=THREE.RepeatWrapping;
+        texture.wrapT=THREE.RepeatWrapping;
+        texture.repeat.set(1,1);
         let hasMesh = false;
         object.traverse(function (child) {
           if (child.isMesh) {
@@ -169,10 +172,27 @@ class Viewer {
       objLoader
         .setMaterials( materials )
         .load( url, ( object )=> {
+          console.log(object)
             self.scene.add( object );
         });
     } );
+  }
+  changeObjectsMaterial(url){
+    var texture = this.textureLoader.load(url);
+    texture.wrapS=this.THREE.RepeatWrapping;
+    texture.wrapT=this.THREE.RepeatWrapping;
+    texture.repeat.set(1,1);
 
+    this.selectObjects.forEach(o=>{
+      o.material.map=texture;
+    });
+    
+  }
+  cancelSelect(){
+    this.selectObjects.forEach(o=>{
+      o.material.emissive = new this.THREE.Color(0x000000);
+    });
+    this.selectObjects.clear();
   }
   clear(obj) {
     if (!obj)

@@ -8,7 +8,6 @@
     <view data-url='http://cdn.dodream.top/haha.obj' bindtap="look" >柜子</view>
     <view data-url='http://cdn.dodream.top/male02.obj' bindtap="look" >人</view>
     <view data-url='http://cdn.dodream.top/file2.obj' bindtap="look" >haha</view>
-    <view data-url='http://cdn.dodream.top/file.mtl' bindtap="look" >mtl</view>
     <view data-url='http://cdn.dodream.top/male02.mtl' bindtap="look" >male02mtl</view>
     <view data-url='http://cdn.dodream.top/male02_dds.mtl' bindtap="look" >male02_dds</view>
     <view data-url='http://cdn.dodream.top/mu.mtl' bindtap="look" >wenli</view>

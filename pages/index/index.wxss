@@ -5,3 +5,23 @@
 .container{
   height: 100%;
 }
+
+.mtl-list{
+  position: fixed;
+  bottom: 10%;
+  display: flex;
+  overflow-x: scroll ;
+}
+.mtl-list>cover-imgage{
+  width: 25%;
+  height: 25%;
+}
+
+.clear-btn{
+  position: fixed;
+  left: 20rpx;
+  bottom: 20rpx;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
