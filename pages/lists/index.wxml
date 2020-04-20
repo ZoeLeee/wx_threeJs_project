@@ -3,6 +3,7 @@
   <view class="input">
     <input confirm-type="go" placeholder="输入obj地址" value="{{url}}" bindinput="change" />
     <button type="primary" bindtap="look">确定</button>
+    <button type="primary" bindtap="scanCode">扫码</button>
   </view>
   <view>
     <view data-url='http://cdn.dodream.top/haha.obj' bindtap="look" >柜子</view>

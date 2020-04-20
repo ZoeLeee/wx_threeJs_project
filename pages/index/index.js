@@ -64,7 +64,6 @@ Page({
     app.Viewer.cancelSelect();
   },
   toggleShowMtls(){
-    console.log(this.data.showMtls)
     this.setData({
       showMtls:this.data.showMtls==="none"?"flex":"none"
     })

@@ -13,11 +13,12 @@
 .input>input{
   outline: 1px solid #ccc;
   height: 60rpx;
-  width: 70%;
+  width: 60%;
 }
 .input>button{
   flex: 1;
   height: 60rpx;
-  line-height: 1;
-  
+  line-height: 60rpx;
+  font-size: 26rpx;
+  padding: 0;
 }
