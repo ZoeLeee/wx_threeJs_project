@@ -5,7 +5,7 @@ import { getMtlLoader } from '../../utils/mtlLoader.js';
 import { LoadingManager } from '../../utils/loadingManager.js';
 
 const uv = "http://cdn.dodream.top/uv_grid_opengl.jpg";
-
+const app=getApp();
 class Viewer {
   constructor() {
     this.camera = null;
@@ -46,23 +46,24 @@ class Viewer {
     this.mtlLoader=new MTLLoader(new THREE.LoadingManager());
 
     // this.testScene(THREE);
-
+    this.loadSceneBg();
     this.animate();
   }
   initLoader(THREE){
+    console.log(THREE);
     THREE.LoadingManager=LoadingManager;
   }
   initScene(THREE) {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
     this.scene = scene;
+
   }
   initRenderer(canvas, THREE) {
     let renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true
     });
-
     this.renderer = renderer;
   }
   initHelper(THREE) {
@@ -89,8 +90,21 @@ class Viewer {
   initControl(THREE) {
     const OrbitControls = GetOrbitControls(this.camera.intance, this.renderer.domElement, THREE);
     var controls = new OrbitControls(this.camera.intance, this.renderer.domElement);
+    controls.target.set(0, 0, 0);
     controls.update();
     this.controls = controls;
+  }
+  loadSceneBg(){
+    const THREE=this.THREE;
+    let texture=new THREE.CubeTextureLoader()
+    .setPath( 'http://cdn.dodream.top/' )
+    .load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
+    
+    texture.wrapS=THREE.RepeatWrapping;
+    texture.wrapT=THREE.RepeatWrapping;
+    texture.rotation=Math.PI/2;
+
+    this.scene.background = texture;
   }
   testScene(THREE) {
     let objLoader = this.objLoader;
@@ -172,7 +186,6 @@ class Viewer {
       objLoader
         .setMaterials( materials )
         .load( url, ( object )=> {
-          console.log(object)
             self.scene.add( object );
         });
     } );
