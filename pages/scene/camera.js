@@ -4,10 +4,11 @@ class Camera {
     this.THREE=THREE;
     this.intance=null;
     this._size = 1.5;
-    // this.init();
-    this.initPeCamera();
+    this.orthCamera=null;
+    this.persCamera=null;
+    this.init();
   }
-  init() {
+  initOrthCamera() {
     const THREE=this.THREE;
     let [width, height] = [app.globalData.width, app.globalData.height];
     const aspect = height / width;
@@ -16,7 +17,7 @@ class Camera {
     camera.position.set(-1, 1, 1);
     const target = new THREE.Vector3(0, 0, 0);
     camera.lookAt(target);
-    this.intance = camera;
+    this.orthCamera = camera;
     this.target=target;
   }
   initPeCamera(){
@@ -28,7 +29,12 @@ class Camera {
     const far = 100;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     camera.position.z = 5;
-    this.intance = camera;
+    this.persCamera = camera;
+  }
+  init(){
+    this.initOrthCamera();
+    this.initPeCamera();
+    this.intance=this.orthCamera;
   }
 }
 export default Camera;

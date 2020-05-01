@@ -14,6 +14,7 @@ class Viewer {
     this.objLoader = null;
     this.textureLoader = null;
     this.mtlLoader=null;
+    this.plane=null;
     this.selectObjects=new Set();
   }
   init(canvas, THREE) {
@@ -46,7 +47,7 @@ class Viewer {
     this.mtlLoader=new MTLLoader(new THREE.LoadingManager());
 
     // this.testScene(THREE);
-    this.loadSceneBg();
+    // this.loadSceneBg();
     this.animate();
   }
   initLoader(THREE){
@@ -82,6 +83,7 @@ class Viewer {
     var planeMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.25 });
     var plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.name="plane";
+    this.plane=plane;
     this.scene.add(plane);
   }
   initLight(THREE) {
@@ -95,16 +97,30 @@ class Viewer {
     this.controls = controls;
   }
   loadSceneBg(){
-    const THREE=this.THREE;
-    let texture=new THREE.CubeTextureLoader()
-    .setPath( 'http://cdn.dodream.top/' )
-    .load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
-    
-    texture.wrapS=THREE.RepeatWrapping;
-    texture.wrapT=THREE.RepeatWrapping;
-    texture.rotation=Math.PI/2;
 
-    this.scene.background = texture;
+    if(this.camera.intance===this.camera.orthCamera){
+      const THREE=this.THREE;
+      let texture=new THREE.CubeTextureLoader()
+      .setPath( 'http://cdn.dodream.top/' )
+      .load( [ 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg' ] );
+      this.scene.background = texture;
+      this.plane.visiable=false;
+    }
+    else{
+      this.scene.background =new this.THREE.Color(0xf0f0f0);
+      this.plane.visiable=true;
+    }
+    this.switchCamera();
+
+  }
+  switchCamera(){
+    if(this.camera.intance===this.camera.orthCamera)
+      this.camera.intance=this.camera.persCamera;
+    else
+      this.camera.intance=this.camera.orthCamera;
+      
+    this.controls.object=this.camera.intance;
+    this.controls.update();
   }
   testScene(THREE) {
     let objLoader = this.objLoader;

@@ -11,5 +11,6 @@
 	<cover-view class="clear-btn">
 		<button type="primary" catchtap="clearSelct" size="mini">清除选择</button>
 		<button type="primary" catchtap="toggleShowMtls" size="mini">更换材质</button>
+		<button type="primary" catchtap="toggleSceneBackground" size="mini">切换场景</button>
 	</cover-view>
 </view>
