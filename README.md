@@ -9,12 +9,9 @@
 1.导入显示obj文件
 2.选种图中实体
 3.给选中的实体更换材质
+4.场景切换
 
 
-待完成
-
-1.扫描二维码打开图
-
-2.支持其他格式3d文件导入
 
  ![image]( https://cdn.jsdelivr.net/gh/ZoeLeee/cdn/123.gif)
+ ![image]( https://cdn.jsdelivr.net/gh/ZoeLeee/cdn/456.gif)
