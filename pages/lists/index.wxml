@@ -6,13 +6,13 @@
     <button type="primary" bindtap="scanCode">扫码</button>
   </view>
   <view>
-    <view data-url='http://cdn.dodream.top/haha.obj' bindtap="look" >柜子</view>
-    <view data-url='http://cdn.dodream.top/male02.obj' bindtap="look" >人</view>
-    <view data-url='http://cdn.dodream.top/file2.obj' bindtap="look" >haha</view>
-    <view data-url='http://cdn.dodream.top/male02.mtl' bindtap="look" >male02mtl</view>
-    <view data-url='http://cdn.dodream.top/male02_dds.mtl' bindtap="look" >male02_dds</view>
-    <view data-url='http://cdn.dodream.top/mu.mtl' bindtap="look" >wenli</view>
-    <view data-url='http://cdn.dodream.top/m2.mtl' bindtap="look" >m2</view>
-    <view data-url='http://cdn.dodream.top/m2.obj' bindtap="look" >m22</view>
+    <view data-url='http://cdn.dodream.top/haha.obj?key=joelee' bindtap="look" >柜子</view>
+    <view data-url='http://cdn.dodream.top/male02.obj?key=joelee' bindtap="look" >人</view>
+    <view data-url='http://cdn.dodream.top/file2.obj?key=joelee' bindtap="look" >haha</view>
+    <view data-url='http://cdn.dodream.top/male02.mtl?key=joelee' bindtap="look" >male02mtl</view>
+    <view data-url='http://cdn.dodream.top/male02_dds.mtl?key=joelee' bindtap="look" >male02_dds</view>
+    <view data-url='http://cdn.dodream.top/mu.mtl?key=joelee' bindtap="look" >wenli</view>
+    <view data-url='http://cdn.dodream.top/m2.mtl?key=joelee' bindtap="look" >m2</view>
+    <view data-url='http://cdn.dodream.top/m2.obj?key=joelee' bindtap="look" >m22</view>
   </view>
 </view>

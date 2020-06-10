@@ -4,7 +4,7 @@ import { GetOrbitControls } from '../../utils/orbitControls';
 import { getMtlLoader } from '../../utils/mtlLoader.js';
 import { LoadingManager } from '../../utils/loadingManager.js';
 
-const uv = "http://cdn.dodream.top/uv_grid_opengl.jpg";
+const uv = "http://cdn.dodream.top/uv_grid_opengl.jpg?key=joelee";
 const app=getApp();
 class Viewer {
   constructor() {

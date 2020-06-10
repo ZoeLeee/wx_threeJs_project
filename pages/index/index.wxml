@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
 	<!-- <view>图形查看</view> -->
-	<canvas id="canvas" catchtouchstart="touchstart" catchtouchend="touchEnd" catchtouchmove="touchMove" type="webgl">
+	<canvas id="canvas" bindtouchstart="touchstart" bindtouchend="touchEnd" bindtouchmove="touchMove" type="webgl">
 	</canvas>
 	<cover-view class="mtl-list" catchtap="selectMtl" wx:if="showMtls" style="display:{{showMtls}}">
 		<cover-image data-url="http://cdn.dodream.top/uv_grid_opengl.jpg" src="http://cdn.dodream.top/uv_grid_opengl.jpg"></cover-image>
