@@ -1,12 +1,11 @@
 <!--index.wxml-->
 <view class="container">
 	<!-- <view>图形查看</view> -->
-	<canvas id="canvas" bindtouchstart="touchstart" bindtouchend="touchEnd" bindtouchmove="touchMove" type="webgl">
+	<canvas id="canvas" catchtouchstart="touchstart" catchtouchend="touchEnd" catchtouchmove="touchMove" type="webgl">
 	</canvas>
 	<cover-view class="mtl-list" catchtap="selectMtl" wx:if="showMtls" style="display:{{showMtls}}">
-		<cover-image data-url="http://cdn.dodream.top/uv_grid_opengl.jpg" src="http://cdn.dodream.top/uv_grid_opengl.jpg"></cover-image>
-		<cover-image data-url="https://chenfeng.tech:7779/CAD/images/78/thumbs/78ae19bd292fbd493572f9a5d4fe70e2_100.jpg" src="https://chenfeng.tech:7779/CAD/images/78/thumbs/78ae19bd292fbd493572f9a5d4fe70e2_100.jpg"></cover-image>
-		<cover-image data-url="https://chenfeng.tech:7779/CAD/images/67/thumbs/670cf5e1ab2a7c3df2cd7fb56908979d_100.jpg" src="https://chenfeng.tech:7779/CAD/images/67/thumbs/670cf5e1ab2a7c3df2cd7fb56908979d_100.jpg"></cover-image>
+		 <cover-image data-url="https://chenfeng.tech:7779/CAD/images/78/thumbs/78ae19bd292fbd493572f9a5d4fe70e2_100.jpg" src="https://chenfeng.tech:7779/CAD/images/78/thumbs/78ae19bd292fbd493572f9a5d4fe70e2_100.jpg"></cover-image> 
+		 <cover-image data-url="https://chenfeng.tech:7779/CAD/images/67/thumbs/670cf5e1ab2a7c3df2cd7fb56908979d_100.jpg" src="https://chenfeng.tech:7779/CAD/images/67/thumbs/670cf5e1ab2a7c3df2cd7fb56908979d_100.jpg"></cover-image>
 	</cover-view>
 	<cover-view class="clear-btn">
 		<button type="primary" catchtap="clearSelct" size="mini">清除选择</button>
